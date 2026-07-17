@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>混凝沉澱池設計 | Coagulation-Flocculation-Sedimentation Basin Design</title>
+<script src="https://yj-chen0830.github.io/jrh-core/jrh-core.js?v=3" defer></script>
+<style>
+  :root{--navy:#0b1f3a;--navy2:#13284a;--gold:#c9a14a;--gold2:#e0bf6e;--bg:#f5f3ee;--ink:#1c2530;--line:#d8d2c2;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Noto Sans TC","Segoe UI",sans-serif;background:var(--bg);color:var(--ink);}
+  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#f5f3ee;padding:28px 32px;}
+  header h1{margin:0;font-size:22px;}
+  header span{color:var(--gold2);font-size:13px;display:block;margin-top:4px;}
+  main{max-width:1060px;margin:0 auto;padding:28px 20px 60px;}
+  .grid{display:grid;grid-template-columns:340px 1fr;gap:24px;}
+  @media(max-width:820px){.grid{grid-template-columns:1fr;}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .card h2{font-size:14.5px;margin:0 0 18px;color:var(--navy);font-weight:700;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--gold);padding-bottom:10px;}
+  label{display:block;font-size:12px;color:#666;margin:10px 0 4px;font-weight:500;}
+  input,select{width:100%;padding:8px 11px;border:1.5px solid var(--line);border-radius:7px;font-size:13.5px;background:#fafaf8;}
+  input:focus,select:focus{outline:none;border-color:var(--gold);}
+  .sec{font-size:12px;font-weight:700;color:var(--navy);margin:16px 0 6px;border-left:4px solid var(--gold);padding-left:9px;letter-spacing:.04em;text-transform:uppercase;}
+  .hint{font-size:11px;color:#8a7a55;margin-top:4px;line-height:1.6;}
+  .note{font-size:11.5px;color:#999;margin-top:12px;line-height:1.75;background:#f9f7f2;border-radius:6px;padding:9px 12px;}
+  button.calc-btn{margin-top:16px;width:100%;padding:12px;border:none;border-radius:8px;background:var(--navy);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;}
+  button.calc-btn:hover{background:var(--navy2);}
+  button.pro-btn{margin-top:12px;width:100%;padding:12px;border:none;border-radius:8px;background:var(--gold);color:var(--navy);font-size:14.5px;font-weight:700;cursor:pointer;}
+  button.pro-btn:hover{filter:brightness(1.08);}
+  table{width:100%;border-collapse:collapse;margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  th{background:var(--navy);color:#f5f3ee;font-weight:600;font-size:12px;padding:9px 10px;text-align:left;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  td{padding:9px 10px;font-size:13px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#f9f7f3;}
+  td:last-child{text-align:right;font-weight:700;}
+  .ok{color:#1a7d3a;font-weight:700;}
+  .ng{color:#c0392b;font-weight:700;}
+  .warn{color:#a86a00;font-weight:700;}
+  .subtle{color:#666;font-weight:500;}
+  details.proc{margin-top:16px;border:1px solid var(--line);border-radius:8px;background:#fafaf8;overflow:hidden;}
+  details.proc summary{cursor:pointer;padding:10px 14px;font-weight:700;font-size:13px;color:var(--navy);user-select:none;list-style:none;display:flex;align-items:center;gap:6px;}
+  details.proc summary::before{content:"▶";font-size:10px;transition:transform .2s;}
+  details[open].proc summary::before{transform:rotate(90deg);}
+  details.proc pre{margin:0;padding:12px 16px 16px;font-family:"Courier New",monospace;font-size:11.5px;line-height:1.9;white-space:pre-wrap;color:#2c3e50;border-top:1px solid var(--line);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .proj-section{background:#fff;border:1px solid var(--gold);border-radius:10px;padding:18px 22px;margin-bottom:20px;}
+  .proj-section h3{margin:0 0 12px;color:var(--navy);font-size:14px;font-weight:700;}
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:600px){.proj-grid,.row2{grid-template-columns:1fr;}}
+  .mob-tabs{display:none;}
+  .mode-box{margin-top:10px;padding:10px 12px;border:1px dashed var(--line);border-radius:8px;background:#fcfbf8;}
+  @media screen and (max-width:767px){
+    .mob-tabs{display:flex;background:var(--bg);border-bottom:2px solid var(--line);margin:0 -20px 0;padding:0 20px;}
+    .mob-tab{flex:1;padding:11px 4px;text-align:center;font-size:13.5px;font-weight:700;color:#888;cursor:pointer;background:transparent;border:none;border-bottom:3px solid transparent;}
+    .mob-tab.active{color:var(--navy);border-bottom-color:var(--gold);}
+    .grid{display:block;}
+    .grid>.card{display:none;}
+    .grid>.card.mob-active{display:block;}
+  }
+  @media print{
+    header,.no-print{display:none!important;}
+    body{background:#fff;margin:0;font-size:9pt;line-height:1.5;color:#111;}
+    main{padding:0;max-width:100%!important;}
+    .grid{grid-template-columns:1fr!important;gap:10pt!important;}
+    .card{box-shadow:none!important;border:1px solid #ccc!important;border-radius:4pt!important;padding:10pt 12pt!important;break-inside:avoid;}
+    .card h2{font-size:10.5pt!important;padding-bottom:6pt!important;margin-bottom:9pt!important;}
+    label{font-size:8pt!important;margin:6pt 0 2pt!important;}
+    .sec{font-size:8pt!important;margin:10pt 0 4pt!important;}
+    .note,.hint{font-size:7.5pt!important;padding:6pt 9pt!important;}
+    table{border:1px solid #bbb!important;border-radius:0!important;margin-top:6pt!important;}
+    th{font-size:8pt!important;padding:5pt 7pt!important;background:#0b1f3a!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    td{font-size:8.5pt!important;padding:5pt 7pt!important;}
+    tr:nth-child(even) td{background:#f5f5f5!important;}
+    details.proc{display:block!important;margin-top:10pt!important;border:1pt solid #0b1f3a!important;border-radius:4pt!important;break-inside:avoid;background:#f9f9f6!important;}
+    details.proc>summary{display:none!important;}
+    details.proc::before{content:"📋  計算過程（供第三方檢核）";display:block;font-weight:700;font-size:8pt;color:#0b1f3a;padding:6pt 10pt 4pt;border-bottom:1px solid #ccc;letter-spacing:.04em;}
+    details.proc>pre{font-size:7pt!important;line-height:1.65!important;white-space:pre-wrap!important;padding:6pt 10pt 10pt!important;color:#1a1a1a!important;font-family:"Courier New",monospace!important;}
+    .proj-section{border:1.5pt solid #0b1f3a!important;border-radius:4pt!important;}
+    button.pro-btn,button.calc-btn{display:none!important;}
+    @page{margin:15mm 12mm;size:A4;}
+  }
+</style>
+</head>
+<body data-tool="csd">
+<header>
+  <a href="https://yj-chen0830.github.io/engineering-hub/" style="color:var(--gold2);font-size:12.5px;text-decoration:none;display:inline-block;margin-bottom:8px;">← 返回工程計算中心</a>
+  <h1>混凝沉澱池設計</h1>
+  <span>快混/膠凝池 G 值與表面負荷率、堰負荷率設計檢核</span>
+</header>
+<main>
+
+<div class="proj-section no-print" id="projSection">
+  <h3>📁 專案資訊（列印時帶入計算書封面）</h3>
+  <div class="proj-grid">
+    <div><label>工程名稱</label><input id="pj-name" placeholder="○○淨水場新建工程"></div>
+    <div><label>工程地點</label><input id="pj-loc" placeholder="○○市○○區"></div>
+    <div><label>承造廠商</label><input id="pj-contractor" placeholder="○○環工股份有限公司"></div>
+    <div><label>文件編號</label><input id="pj-docno" placeholder="CSD-CAL-001"></div>
+    <div><label>計算者</label><input id="pj-calc" placeholder="姓名"></div>
+    <div><label>審核者</label><input id="pj-review" placeholder="姓名"></div>
+    <div><label>計算日期</label><input id="pj-date" type="date"></div>
+  </div>
+</div>
+
+<div class="mob-tabs">
+  <button class="mob-tab active" onclick="switchMobTab('csd-in',this)">📋 輸入參數</button>
+  <button class="mob-tab" id="mobTab-csd-r" onclick="switchMobTab('csd-r',this)">📊 計算結果</button>
+</div>
+<div class="grid">
+  <div class="card mob-active" data-tab="csd-in">
+    <h2>輸入參數</h2>
+
+    <div class="sec">設計流量</div>
+    <label>設計流量 Q (CMD, m³/day)</label>
+    <input id="csd-Q" type="number" value="5000" step="100" min="0">
+
+    <div class="sec">快混池</div>
+    <div class="row2">
+      <div>
+        <label>設計停留時間 t_rm (sec)</label>
+        <input id="csd-trm" type="number" value="60" step="1" min="1">
+      </div>
+      <div>
+        <label>動力梯度 G_rm (1/s)</label>
+        <input id="csd-Grm" type="number" value="700" step="10" min="1">
+        <div class="hint">典型快速混合範圍約 700-1000 1/s。</div>
+      </div>
+    </div>
+
+    <div class="sec">膠凝池</div>
+    <div class="row2">
+      <div>
+        <label>設計停留時間 t_floc (min)</label>
+        <input id="csd-tfloc" type="number" value="25" step="1" min="1">
+      </div>
+      <div>
+        <label>動力梯度 G_floc (1/s)</label>
+        <input id="csd-Gfloc" type="number" value="40" step="1" min="1">
+        <div class="hint">典型膠凝範圍約 20-70 1/s。</div>
+      </div>
+    </div>
+
+    <div class="sec">沉澱池</div>
+    <label>表面積輸入模式</label>
+    <select id="csd-area-mode" onchange="toggleAreaMode()">
+      <option value="sor">輸入目標表面負荷率，反算所需面積</option>
+      <option value="area">直接輸入已規劃沉澱池表面積</option>
+    </select>
+    <div class="mode-box">
+      <div id="csd-sor-box">
+        <label>表面負荷率設計值 SOR_design (m³/m²/day)</label>
+        <input id="csd-sor-design" type="number" value="30" step="1" min="0.1">
+      </div>
+      <div id="csd-area-box" style="display:none">
+        <label>沉澱池表面積 A_sed (m²)</label>
+        <input id="csd-A" type="number" value="166.67" step="0.01" min="0.01">
+      </div>
+    </div>
+    <div class="row2">
+      <div>
+        <label>沉澱池水深 H_sed (m)</label>
+        <input id="csd-Hsed" type="number" value="3.5" step="0.1" min="0.1">
+      </div>
+      <div>
+        <label>出流堰長度 L_weir (m)</label>
+        <input id="csd-Lweir" type="number" value="25" step="0.1" min="0.1">
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcCSD()">計算混凝沉澱池設計</button>
+    <div class="note">固定採 20°C 動力黏滯係數 μ = 1.002×10⁻³ Pa·s。工具僅檢核快混/膠凝之 G 值與 Gt、沉澱池表面負荷率、水力停留時間、堰負荷率等經驗指標；未包含混凝劑劑量 Jar Test、污泥處理、池體結構配筋與設備選型，正式設計應由環工技師依原水水質及操作條件複核。</div>
+  </div>
+
+  <div class="card" data-tab="csd-r">
+    <h2>計算結果</h2>
+    <div id="csd-result"><p style="color:#888">尚未計算</p></div>
+    <details class="proc" id="csd-proc" style="display:none">
+      <summary>📋 計算過程（供第三方檢核）</summary>
+      <pre id="csd-proc-text"></pre>
+    </details>
+    <button class="pro-btn no-print" onclick="openPro()">📄 產出計算書 PDF</button>
+  </div>
+</div>
+
+</main>
+<script>
+function switchMobTab(name,btn){
+  btn.parentElement.querySelectorAll('.mob-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  btn.parentElement.nextElementSibling.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('mob-active',c.dataset.tab===name);
+  });
+}
+function openPro(){ JRH.checkEmail(function(){ jrhPrint('混凝沉澱池設計計算書'); }); }
+function v(id){return parseFloat(document.getElementById(id).value)||0;}
+function f1(x){return x.toFixed(1);}
+function f2(x){return x.toFixed(2);}
+function f3(x){return x.toFixed(3);}
+function f4(x){return x.toFixed(4);}
+function badge(ok){return ok?'<span class="ok">OK</span>':'<span class="ng">NG</span>';}
+function gtText(gt){
+  if(gt<10000)return '<span class="warn">偏低</span>';
+  if(gt>100000)return '<span class="warn">偏高</span>';
+  return '<span class="ok">典型範圍內</span>';
+}
+function toggleAreaMode(){
+  var mode=document.getElementById('csd-area-mode').value;
+  document.getElementById('csd-sor-box').style.display=mode==='sor'?'block':'none';
+  document.getElementById('csd-area-box').style.display=mode==='area'?'block':'none';
+}
+
+function calcCSD(){
+  var Q=v('csd-Q');
+  var trm=v('csd-trm');
+  var Grm=v('csd-Grm');
+  var tfloc=v('csd-tfloc');
+  var Gfloc=v('csd-Gfloc');
+  var Hsed=v('csd-Hsed');
+  var Lweir=v('csd-Lweir');
+  var mode=document.getElementById('csd-area-mode').value;
+  var sorDesign=v('csd-sor-design');
+  var areaInput=v('csd-A');
+  var mu=1.002e-3;
+
+  var Qcms=Q/86400;
+  var Vrm=Qcms*trm;
+  var Prm=Grm*Grm*mu*Vrm;
+  var Vfloc=Qcms*tfloc*60;
+  var Pfloc=Gfloc*Gfloc*mu*Vfloc;
+  var Gt=Gfloc*tfloc*60;
+  var Ased=mode==='sor'?(sorDesign>0?Q/sorDesign:0):areaInput;
+  var SOR=Ased>0?Q/Ased:0;
+  var HRTsedHr=Q>0?(Ased*Hsed/Q)*24:0;
+  var WLR=Lweir>0?Q/Lweir:0;
+
+  var gtTypical=Gt>=10000&&Gt<=100000;
+  var sorTypical=SOR<=40&&SOR>0;
+  var wlrOK=WLR<=250&&WLR>0;
+
+  var areaSource=mode==='sor'
+    ? '依輸入 SOR_design 反算'
+    : '依使用者輸入表面積直接檢核';
+
+  document.getElementById('csd-result').innerHTML =
+    '<table><tr><th>項目</th><th>數值</th></tr>'+
+    '<tr><td>流量換算 Q_cms</td><td>'+f4(Qcms)+' m³/s</td></tr>'+
+    '<tr><td>快混池體積 V_rm</td><td>'+f2(Vrm)+' m³</td></tr>'+
+    '<tr><td>快混池所需動力 P_rm</td><td>'+f2(Prm)+' W</td></tr>'+
+    '<tr><td>膠凝池體積 V_floc</td><td>'+f2(Vfloc)+' m³</td></tr>'+
+    '<tr><td>膠凝池所需動力 P_floc</td><td>'+f2(Pfloc)+' W</td></tr>'+
+    '<tr><td>膠凝池 Gt 值</td><td>'+f0(Gt)+' '+gtText(Gt)+'</td></tr>'+
+    '<tr><td>沉澱池表面積 A_sed <span class="subtle">('+areaSource+')</span></td><td>'+f2(Ased)+' m²</td></tr>'+
+    '<tr><td>表面負荷率 SOR</td><td>'+f2(SOR)+' m³/m²·day '+(sorTypical?'<span class="ok">常見範圍內</span>':'<span class="warn">請依水質再核定</span>')+'</td></tr>'+
+    '<tr><td>沉澱池水力停留時間 HRT_sed</td><td>'+f2(HRTsedHr)+' hr</td></tr>'+
+    '<tr><td>堰負荷率 WLR</td><td>'+f2(WLR)+' m³/m·day '+badge(wlrOK)+'</td></tr>'+
+    '</table>';
+
+  var p='';
+  p+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+  p+='  混凝沉澱池設計計算過程\n';
+  p+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  p+='【輸入條件】\n';
+  p+='  Q = '+f2(Q)+' m³/day\n';
+  p+='  t_rm = '+f2(trm)+' sec, G_rm = '+f2(Grm)+' 1/s\n';
+  p+='  t_floc = '+f2(tfloc)+' min, G_floc = '+f2(Gfloc)+' 1/s\n';
+  if(mode==='sor'){
+    p+='  SOR_design = '+f2(sorDesign)+' m³/m²·day（反算 A_sed）\n';
+  }else{
+    p+='  A_sed = '+f2(areaInput)+' m²（直接輸入）\n';
+  }
+  p+='  H_sed = '+f2(Hsed)+' m, L_weir = '+f2(Lweir)+' m\n';
+  p+='  μ = 1.002×10^-3 Pa·s（20°C 固定值）\n\n';
+
+  p+='【一】流量換算\n';
+  p+='  Q_cms = Q / 86400 = '+f2(Q)+' / 86400 = '+f4(Qcms)+' m³/s\n\n';
+
+  p+='【二】快混池體積與動力\n';
+  p+='  V_rm = Q_cms × t_rm = '+f4(Qcms)+' × '+f2(trm)+' = '+f2(Vrm)+' m³\n';
+  p+='  P_rm = G_rm² × μ × V_rm = '+f2(Grm)+'² × 1.002×10^-3 × '+f2(Vrm)+' = '+f2(Prm)+' W\n\n';
+
+  p+='【三】膠凝池體積與動力\n';
+  p+='  V_floc = Q_cms × t_floc × 60 = '+f4(Qcms)+' × '+f2(tfloc)+' × 60 = '+f2(Vfloc)+' m³\n';
+  p+='  P_floc = G_floc² × μ × V_floc = '+f2(Gfloc)+'² × 1.002×10^-3 × '+f2(Vfloc)+' = '+f2(Pfloc)+' W\n\n';
+
+  p+='【四】膠凝池 Gt 值檢核\n';
+  p+='  Gt = G_floc × t_floc × 60 = '+f2(Gfloc)+' × '+f2(tfloc)+' × 60 = '+f0(Gt)+'\n';
+  p+='  典型參考範圍約 10,000 ~ 100,000 → '+(gtTypical?'落在典型範圍內':'偏離典型範圍，請依 Jar Test 與實績調整')+'\n\n';
+
+  p+='【五】沉澱池表面積與表面負荷率\n';
+  if(mode==='sor'){
+    p+='  A_sed = Q / SOR_design = '+f2(Q)+' / '+f2(sorDesign)+' = '+f2(Ased)+' m²\n';
+  }else{
+    p+='  A_sed = '+f2(Ased)+' m²（採使用者輸入值）\n';
+  }
+  p+='  SOR = Q / A_sed = '+f2(Q)+' / '+f2(Ased)+' = '+f2(SOR)+' m³/m²·day\n\n';
+
+  p+='【六】沉澱池水力停留時間\n';
+  p+='  HRT_sed = (A_sed × H_sed) / Q = ('+f2(Ased)+' × '+f2(Hsed)+') / '+f2(Q)+' = '+f4((Ased*Hsed/Q))+' day\n';
+  p+='  HRT_sed = '+f4((Ased*Hsed/Q))+' × 24 = '+f2(HRTsedHr)+' hr\n\n';
+
+  p+='【七】堰負荷率\n';
+  p+='  WLR = Q / L_weir = '+f2(Q)+' / '+f2(Lweir)+' = '+f2(WLR)+' m³/m·day\n';
+  p+='  典型上限參考 ≤ 250 m³/m·day → '+(wlrOK?'OK':'NG')+'\n\n';
+
+  p+='【說明】\n';
+  p+='  本工具僅供初步設計與第三方檢核使用，未納入混凝劑投加量、污泥處理、池體結構與設備細部設計。\n';
+  p+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+  document.getElementById('csd-proc-text').textContent=p;
+  document.getElementById('csd-proc').style.display='';
+  if(window.innerWidth<768){var b=document.getElementById('mobTab-csd-r');if(b)switchMobTab('csd-r',b);}
+}
+
+function f0(x){return Math.round(x).toString();}
+
+toggleAreaMode();
+calcCSD();
+</script>
+<script>
+window.jrhDocMeta={
+ "doc":"混凝沉澱池設計計算書",
+ "codes":[
+  "Metcalf & Eddy, Wastewater Engineering: Treatment and Resource Recovery",
+  "Mackenzie L. Davis, Water and Wastewater Engineering: Design Principles and Practice"
+ ],
+ "notes":[
+  "本工具採 20°C 水之動力黏滯係數 μ = 1.002×10^-3 Pa·s，僅用於快混與膠凝功率需求之初估。",
+  "Gt、表面負荷率與堰負荷率屬經驗設計指標，應配合原水特性、Jar Test、處理目標與既有操作實績調整。",
+  "本工具未包含混凝劑劑量決定、污泥處理、池體結構設計、機械設備選型與短流效應檢討，正式設計應由環工技師依水質特性複核。",
+  "本計算書應經專業技師簽證後，始得作為正式送審文件。"
+ ]
+};
+</script>
+</body>
+</html>
