@@ -318,12 +318,25 @@ function calcCSD(){
   document.getElementById('csd-proc-text').textContent=p;
   document.getElementById('csd-proc').style.display='';
   if(window.innerWidth<768){var b=document.getElementById('mobTab-csd-r');if(b)switchMobTab('csd-r',b);}
+  if(window.JRH && JRH.saveOutput) JRH.saveOutput({Q_cmd:Q});
 }
 
 function f0(x){return Math.round(x).toString();}
 
 toggleAreaMode();
 calcCSD();
+
+/* 廢水處理流程：攔污柵與沉砂池的設計流量，跟本工具（混凝沉澱池）是同一
+   股廢水，理論上使用同一個設計流量Q。 */
+function jrhTryInbound(){
+  if(!(window.JRH && JRH.showInboundBanner))return;
+  JRH.showInboundBanner('bsg','攔污柵與沉砂池設計',function(data){
+    document.getElementById('csd-Q').value=data.Q_cmd;
+    calcCSD();
+  });
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',jrhTryInbound);
+else jrhTryInbound();
 </script>
 <script>
 window.jrhDocMeta={
